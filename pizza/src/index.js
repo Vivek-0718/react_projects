@@ -106,7 +106,7 @@ function Pizza({ obj }) {
 }
 function Footer() {
   let currHour = new Date().getHours();
-  let openHour = 6;
+  let openHour = 12;
   let closeHour = 23;
   let isOpen = currHour >= openHour && currHour < closeHour;
   return (
