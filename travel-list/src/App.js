@@ -11,8 +11,15 @@ export default function App() {
   function handleAdditems(newItem) {
     setItems((pre) => [...pre, newItem]);
   }
+  function handleUpdateItem(item) {
+    setItems((prev) =>
+      prev.map((ele) => {
+        return ele.id === item.id ? { ...ele, packed: !item.packed } : ele;
+      }),
+    );
+  }
   function handleRemoveItem(item) {
-    setItems((prev)=>prev.filter((e)=>e.id!==item.id))
+    setItems((prev) => prev.filter((e) => e.id !== item.id));
   }
   function handleClearItems() {
     setItems([]);
@@ -25,8 +32,9 @@ export default function App() {
         item={item}
         onremoveitem={handleRemoveItem}
         onClearItems={handleClearItems}
+        onUpdateItem={handleUpdateItem}
       ></List>
-      <Stats></Stats>
+      <Stats item={item}></Stats>
     </div>
   );
 }
@@ -76,13 +84,18 @@ function Form({ onAdditems }) {
   );
 }
 
-function List({ item, onremoveitem, onClearItems }) {
+function List({ item, onremoveitem, onClearItems, onUpdateItem }) {
   return (
     <div className="list">
       <ul>
         {item.map((item) => {
           return (
-            <Li item={item} key={item.id} onremoveitem={onremoveitem}></Li>
+            <Li
+              item={item}
+              key={item.id}
+              onremoveitem={onremoveitem}
+              onUpdateItem={onUpdateItem}
+            ></Li>
           );
         })}
       </ul>
@@ -96,28 +109,45 @@ function List({ item, onremoveitem, onClearItems }) {
   );
 }
 
-function Li({ item, onremoveitem }) {
-  const [ispack, setPack] = useState(item.packed);
+function Li({ item, onremoveitem, onUpdateItem }) {
   return (
-    <li className={`${ispack ? "text-line" : ""}`}>
+    <li className={`${item.packed ? "text-line" : ""}`}>
       <input
+        id={item.id}
         type="checkbox"
-        name=""
-        id=""
-        checked={ispack}
-        onChange={() => setPack((ref) => !ispack)}
+        checked={item.packed}
+        onChange={() => onUpdateItem(item)}
       />
-      <span>{item.quantity}</span>
-      <span>{item.description}</span>
-      <button onClick={() => onremoveitem(item)}>❌</button>
+      <label htmlFor={item.id}>
+        <span>{item.quantity}</span>
+        <span>{item.description}</span>
+        <button onClick={() => onremoveitem(item)}>❌</button>
+      </label>
     </li>
   );
 }
 
-function Stats() {
-  return (
-    <em className="stats">
-      💼 Happy Travel
-    </em>
-  );
+function Stats({ item }) {
+  let packedItems = item.reduce((agg, val) => {
+    return val.packed ? agg + 1 : agg;
+  }, 0);
+  if (packedItems === 0) {
+    return <em className="stats">✅Start Packing</em>;
+  }
+    return (
+      <>
+        {packedItems / item.length !== 1 ? (
+          <em className="stats">
+            💼 You have {item.length} items on your list, and you already packed{" "}
+            {packedItems} (
+            {packedItems && item.length
+              ? Math.round((packedItems / item.length) * 100)
+              : 0}
+            %)
+          </em>
+        ) : (
+          <em className="stats">You got everything. Happy Travel.✈️</em>
+        )}
+      </>
+    );
 }
