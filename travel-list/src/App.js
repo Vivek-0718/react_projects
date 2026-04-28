@@ -24,6 +24,11 @@ export default function App() {
   function handleClearItems() {
     setItems([]);
   }
+
+  function filterByName() {
+    let a = item.sort();
+    console.log(a);
+  }
   return (
     <div className="app">
       <h1>Travel List</h1>
@@ -33,6 +38,7 @@ export default function App() {
         onremoveitem={handleRemoveItem}
         onClearItems={handleClearItems}
         onUpdateItem={handleUpdateItem}
+        filterByName={filterByName}
       ></List>
       <Stats item={item}></Stats>
     </div>
@@ -84,7 +90,13 @@ function Form({ onAdditems }) {
   );
 }
 
-function List({ item, onremoveitem, onClearItems, onUpdateItem }) {
+function List({
+  item,
+  onremoveitem,
+  onClearItems,
+  onUpdateItem,
+  filterByName,
+}) {
   return (
     <div className="list">
       <ul>
@@ -100,8 +112,14 @@ function List({ item, onremoveitem, onClearItems, onUpdateItem }) {
         })}
       </ul>
       <div className="actions">
-        {/* <select name="" id="">
-          Sort by
+        {/* <select
+          name=""
+          id=""
+          onChange={(e) => (e.target.value === "byItems" ? filterByName() : "")}
+        >
+          <option value="byInput">Sort by input order</option>
+          <option value="byItems">Sort by items</option>
+          <option value="byPackedstatus">Sort by packed status</option>
         </select> */}
         <button onClick={() => onClearItems()}>Clear List</button>
       </div>
@@ -118,7 +136,7 @@ function Li({ item, onremoveitem, onUpdateItem }) {
         checked={item.packed}
         onChange={() => onUpdateItem(item)}
       />
-      <label htmlFor={item.id}>
+      <label className="li-lable" htmlFor={item.id}>
         <span>{item.quantity}</span>
         <span>{item.description}</span>
         <button onClick={() => onremoveitem(item)}>❌</button>
@@ -134,20 +152,20 @@ function Stats({ item }) {
   if (packedItems === 0) {
     return <em className="stats">✅Start Packing</em>;
   }
-    return (
-      <>
-        {packedItems / item.length !== 1 ? (
-          <em className="stats">
-            💼 You have {item.length} items on your list, and you already packed{" "}
-            {packedItems} (
-            {packedItems && item.length
-              ? Math.round((packedItems / item.length) * 100)
-              : 0}
-            %)
-          </em>
-        ) : (
-          <em className="stats">You got everything. Happy Travel.✈️</em>
-        )}
-      </>
-    );
+  return (
+    <>
+      {packedItems / item.length !== 1 ? (
+        <em className="stats">
+          💼 You have {item.length} items on your list, and you already packed{" "}
+          {packedItems} (
+          {packedItems && item.length
+            ? Math.round((packedItems / item.length) * 100)
+            : 0}
+          %)
+        </em>
+      ) : (
+        <em className="stats">You got everything. Happy Travel.✈️</em>
+      )}
+    </>
+  );
 }
