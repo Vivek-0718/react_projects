@@ -34,7 +34,6 @@ h1 {
   text-transform: uppercase;
   font-weight: 400;
   word-spacing: 30px;
-  letter-spacing: -5px;
   padding: 2.4rem 0;
 }
 
@@ -110,8 +109,8 @@ input {
 }
 
 input[type="checkbox"] {
-  height: 2rem;
-  width: 2rem;
+  height: 3rem;
+  width: 3rem;
   accent-color: #e5771f;
 }
 
@@ -144,10 +143,6 @@ input[type="checkbox"] {
   gap: 0.5rem;
 }
 @media screen and (max-width: 500px) {
-  input[type="checkbox"] {
-    width: 3rem;
-    height: 3rem;
-  }
   .add-form {
     flex-direction: column;
     gap: 2rem;
