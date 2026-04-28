@@ -3,7 +3,7 @@ import "./App.css";
 
 const initialItems = [
   { id: 1, description: "Passports", quantity: 2, packed: false },
-  { id: 2, description: "Socks", quantity: 12, packed: false },
+  { id: 2, description: "Charger", quantity: 12, packed: false },
 ];
 
 export default function App() {
@@ -24,11 +24,6 @@ export default function App() {
   function handleClearItems() {
     setItems([]);
   }
-
-  function filterByName() {
-    let a = item.sort();
-    console.log(a);
-  }
   return (
     <div className="app">
       <h1>Travel List</h1>
@@ -38,7 +33,6 @@ export default function App() {
         onremoveitem={handleRemoveItem}
         onClearItems={handleClearItems}
         onUpdateItem={handleUpdateItem}
-        filterByName={filterByName}
       ></List>
       <Stats item={item}></Stats>
     </div>
@@ -90,17 +84,23 @@ function Form({ onAdditems }) {
   );
 }
 
-function List({
-  item,
-  onremoveitem,
-  onClearItems,
-  onUpdateItem,
-  filterByName,
-}) {
+function List({ item, onremoveitem, onClearItems, onUpdateItem }) {
+  let [sort, setSort] = useState("byInput");
+  let sortedItems = [];
+
+  if (sort === "byInput") {
+    sortedItems = item;
+  } else if (sort === "byItems") {
+    sortedItems = [...item].sort((a, b) =>
+      a.description.localeCompare(b.description),
+    );
+  } else if (sort === "byPackedstatus") {
+    sortedItems = [...item].sort((a, b) => b.packed - a.packed);
+  }
   return (
     <div className="list">
       <ul>
-        {item.map((item) => {
+        {sortedItems.map((item) => {
           return (
             <Li
               item={item}
@@ -112,15 +112,11 @@ function List({
         })}
       </ul>
       <div className="actions">
-        {/* <select
-          name=""
-          id=""
-          onChange={(e) => (e.target.value === "byItems" ? filterByName() : "")}
-        >
+        <select name="" id="" onChange={(e) => setSort(e.target.value)}>
           <option value="byInput">Sort by input order</option>
           <option value="byItems">Sort by items</option>
           <option value="byPackedstatus">Sort by packed status</option>
-        </select> */}
+        </select>
         <button onClick={() => onClearItems()}>Clear List</button>
       </div>
     </div>
@@ -129,7 +125,7 @@ function List({
 
 function Li({ item, onremoveitem, onUpdateItem }) {
   return (
-    <li className={`${item.packed ? "text-line" : ""}`}>
+    <li>
       <input
         id={item.id}
         type="checkbox"
@@ -137,8 +133,12 @@ function Li({ item, onremoveitem, onUpdateItem }) {
         onChange={() => onUpdateItem(item)}
       />
       <label className="li-lable" htmlFor={item.id}>
-        <span>{item.quantity}</span>
-        <span>{item.description}</span>
+        <span className={`${item.packed ? "text-line" : ""}`}>
+          {item.quantity}
+        </span>
+        <span className={`${item.packed ? "text-line" : ""}`}>
+          {item.description}
+        </span>
         <button onClick={() => onremoveitem(item)}>❌</button>
       </label>
     </li>
@@ -150,7 +150,7 @@ function Stats({ item }) {
     return val.packed ? agg + 1 : agg;
   }, 0);
   if (packedItems === 0) {
-    return <em className="stats">✅Start Packing</em>;
+    return <em className="stats">✅ Start Packing</em>;
   }
   return (
     <>

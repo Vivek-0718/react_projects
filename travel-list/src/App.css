@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -105,6 +106,7 @@ input {
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  font-size: 3rem;
 }
 
 input[type="checkbox"] {
@@ -142,7 +144,21 @@ input[type="checkbox"] {
   gap: 0.5rem;
 }
 @media screen and (max-width: 500px) {
+  input[type="checkbox"] {
+    width: 3rem;
+    height: 3rem;
+  }
   .add-form {
     flex-direction: column;
+    gap: 2rem;
+  }
+  .list ul{
+    gap: 3rem;
+  }
+  .list li {
+    gap: 2rem;
+  }
+  .li-lable{
+    gap: 2rem;
   }
 }
