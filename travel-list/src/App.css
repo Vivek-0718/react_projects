@@ -135,6 +135,12 @@ input[type="checkbox"] {
   display: flex;
   gap: 1rem;
 }
+.li-lable{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
 @media screen and (max-width: 500px) {
   .add-form {
     flex-direction: column;
