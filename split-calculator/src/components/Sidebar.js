@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Li from "./Li";
 import Addsection from "./Addsection";
 
@@ -7,8 +6,9 @@ export default function Sidebar({
   currFriendsList,
   handleSelectFriend,
   selectedFriend,
+  setaddFormOpen,
+  addFormIsOpen,
 }) {
-  let [addFormIsOpen, setaddFormOpen] = useState(false);
   return (
     <div className="sidebar">
       <ul>
@@ -18,6 +18,7 @@ export default function Sidebar({
             key={e.id}
             handleSelectFriend={handleSelectFriend}
             selectedFriend={selectedFriend}
+            setaddFormOpen={setaddFormOpen}
           ></Li>
         ))}
       </ul>

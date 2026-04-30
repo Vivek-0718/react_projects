@@ -29,12 +29,14 @@ export default function App() {
     initialFriends,
   );
   let [selectedFriend, setSelectedFriend] = useState(null);
+  let [addFormIsOpen, setaddFormOpen] = useState(false);
   function handleFriendList(e) {
     setFriendsList((pre) => [...currFriendsList, e]);
   }
 
   function handleSelectFriend(friend) {
     setSelectedFriend(friend);
+    setaddFormOpen(false)
   }
 
   function handleUpdateFriend(updatedFriend) {
@@ -50,6 +52,8 @@ export default function App() {
         currFriendsList={currFriendsList}
         handleSelectFriend={handleSelectFriend}
         selectedFriend={selectedFriend}
+        setaddFormOpen={setaddFormOpen}
+        addFormIsOpen={addFormIsOpen}
       ></Sidebar>
       <Spilitbillform
         currFriendsList={currFriendsList}

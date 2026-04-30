@@ -12,6 +12,7 @@ export default function Spilitbillform({
   let expenceDiff = bill - expence;
   function handleSplit(e) {
     e.preventDefault();
+    if (!bill) return;
     const balanceChange = youPaid ? expenceDiff : -expence;
 
     const updatedFriend = {
@@ -29,7 +30,7 @@ export default function Spilitbillform({
       ...selectedFriend,
       balance: 0,
     };
-    handleUpdateFriend(clearedFriend)
+    handleUpdateFriend(clearedFriend);
   }
   return (
     <>
@@ -49,7 +50,9 @@ export default function Spilitbillform({
             value={String(Number(expence))}
             onChange={(e) =>
               setyourexpence(
-                Number(e.target.value) < bill && Number(e.target.value),
+                Number(e.target.value) <= bill
+                  ? Number(e.target.value)
+                  : String(Number(expence)),
               )
             }
           />
