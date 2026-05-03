@@ -56,6 +56,7 @@ export default function App() {
         addFormIsOpen={addFormIsOpen}
       ></Sidebar>
       <Spilitbillform
+        key={selectedFriend.id}
         currFriendsList={currFriendsList}
         selectedFriend={selectedFriend}
         setSelectedFriend={setSelectedFriend}
