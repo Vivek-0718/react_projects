@@ -86,7 +86,7 @@ export default function App() {
           setLoading(true);
           setError("");
           let res = await fetch(
-            `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&s=${searchValue}`,
+            `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&s=${searchValue}`,
             { signal: controller.signal },
           );
           if (!res.ok)

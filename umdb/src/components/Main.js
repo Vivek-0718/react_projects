@@ -273,7 +273,7 @@ function SelectedMovie({
           setLoading(true);
           setError("");
           let res = await fetch(
-            `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&i=${selectedID}`,
+            `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&i=${selectedID}`,
           );
           if (!res.ok) throw new Error("Network error. Please try again later");
           let data = await res.json();
