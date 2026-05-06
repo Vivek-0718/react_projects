@@ -16,7 +16,7 @@ export default function Main({
   removeFromWatchedList,
 }) {
   return (
-    <div className="main">
+    <main className="main">
       <SearchBox
         movies={movies}
         isLoading={isLoading}
@@ -31,7 +31,7 @@ export default function Main({
         handleAddWatchedList={handleAddWatchedList}
         removeFromWatchedList={removeFromWatchedList}
       />
-    </div>
+    </main>
   );
 }
 
@@ -145,7 +145,7 @@ function SearchListItem({ movie, handleSelectedID }) {
   return (
     <li onClick={() => handleSelectedID(movie.imdbID)} key={movie.imdbID}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
+      <h2>{movie.Title}</h2>
       <div>
         <p>
           <span style={{ display: "flex" }}>
@@ -206,7 +206,7 @@ function WatchedListItem({ watchedMovie, removeFromWatchedList }) {
   return (
     <li key={watchedMovie.imdbID}>
       <img src={watchedMovie.Poster} alt={`${watchedMovie.Title} poster`} />
-      <h3>{watchedMovie.Title}</h3>
+      <h2>{watchedMovie.Title}</h2>
       <div>
         <p>
           <span>⭐️</span>

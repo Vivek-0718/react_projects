@@ -216,8 +216,9 @@ body {
   grid-row: 1 / -1;
 }
 
-.list h3 {
+.list h2 {
   font-size: 1.8rem;
+  font-weight: 600;
 }
 
 .list div {
