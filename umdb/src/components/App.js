@@ -23,13 +23,14 @@ export default function App() {
   const [searchValue, setsearchValue] = useState("");
   const [selectedID, setSelectedID] = useState(null);
 
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(function () {
+    return JSON.parse(localStorage.getItem("watched")) ?? []
+  });
   const isalreadyWatched = watched.some((i) => i.imdbID === selectedID);
 
   function handleAddWatchedList(movie) {
     setWatched((list) => [...list, movie]);
   }
-
   function removeFromWatchedList(movieID) {
     setWatched((pre) => pre.filter((m) => movieID !== m.imdbID));
   }
@@ -42,6 +43,12 @@ export default function App() {
   function handleSearch(e) {
     setsearchValue(e);
   }
+  useEffect(
+    function addLocalStorage(params) {
+      localStorage.setItem("watched",JSON.stringify(watched));
+    },
+    [watched],
+  );
   useEffect(() => {
     async function loadPopular() {
       try {
@@ -123,9 +130,7 @@ export default function App() {
   return (
     <>
       <Nav searchValue={searchValue} handleSearch={handleSearch}>
-        <strong>
-          {movies.length > 0 ? `${movies.length}` : "0"}
-        </strong>
+        <strong>{movies.length > 0 ? `${movies.length}` : "0"}</strong>
       </Nav>
 
       <Main
