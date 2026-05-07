@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Nav from "./Nav";
 import Main from "./Main";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+
 const POPULAR_IDS = [
   "tt0111161", // The Shawshank Redemption
   "tt0068646", // The Godfather
@@ -23,9 +25,7 @@ export default function App() {
   const [searchValue, setsearchValue] = useState("");
   const [selectedID, setSelectedID] = useState(null);
 
-  const [watched, setWatched] = useState(function () {
-    return JSON.parse(localStorage.getItem("watched")) ?? []
-  });
+  const [watched, setWatched] = useLocalStorage("watch", []);
   const isalreadyWatched = watched.some((i) => i.imdbID === selectedID);
 
   function handleAddWatchedList(movie) {
@@ -43,12 +43,7 @@ export default function App() {
   function handleSearch(e) {
     setsearchValue(e);
   }
-  useEffect(
-    function addLocalStorage(params) {
-      localStorage.setItem("watched",JSON.stringify(watched));
-    },
-    [watched],
-  );
+
   useEffect(() => {
     async function loadPopular() {
       try {

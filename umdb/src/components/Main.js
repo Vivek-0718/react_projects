@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Loader from "./../components/Loader.js";
 import StarRating from "./../components/StarRating.js";
-
+import { useKeys } from "../hooks/useKeys";
 const average = (arr) => arr.reduce((acc, cur, i) => acc + cur / arr.length, 0);
 export default function Main({
   movies,
@@ -273,16 +273,8 @@ function SelectedMovie({
     handleAddWatchedList(watchedMovie);
   }
 
-  useEffect(
-    function () {
-      function handleEsc(e) {
-        if (e.code === "Escape") handleBackFromSelectedID();
-      }
-      document.addEventListener("keydown", handleEsc);
-      return () => document.removeEventListener("keydown", handleEsc);
-    },
-    [handleBackFromSelectedID],
-  );
+  useKeys("Escape",handleBackFromSelectedID);
+
   useEffect(
     function () {
       async function getSelectedMovie() {
