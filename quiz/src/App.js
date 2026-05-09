@@ -45,7 +45,7 @@ function reducer(state, action) {
     case "nextQuestion":
       return {
         ...state,
-        currentQuestion: state.currentQuestion++,
+        currentQuestion: state.currentQuestion + 1,
         clickedOption: null,
       };
     default:
