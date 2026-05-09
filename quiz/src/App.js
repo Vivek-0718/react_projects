@@ -19,19 +19,14 @@ function reducer(state, action) {
   switch (action.type) {
     case "startGame":
       return { ...state, status: "active", currentQuestion: 1 };
-      break;
     case "loading":
       return { ...state, status: "loading" };
-      break;
     case "error":
       return { ...state, status: "error" };
-      break;
     case "ready":
       return { ...state, status: "ready" };
-      break;
     case "finish":
       return { ...state, status: "finish" };
-      break;
     case "restart":
       return {
         ...state,
@@ -39,10 +34,8 @@ function reducer(state, action) {
         clickedOption: null,
         points: 0,
       };
-      break;
     case "questions":
       return { ...state, questions: action.payload };
-      break;
     case "clicked":
       return {
         ...state,
