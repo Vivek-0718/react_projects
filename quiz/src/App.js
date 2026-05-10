@@ -9,16 +9,25 @@ import Progress from "./Progress";
 import Question from "./Question";
 import Footer from "./Footer";
 import Finish from "./Finish";
+
+const secs_per_ques = 30
 const initialValue = {
   status: "ready",
   questions: [],
+  currentQuestion: 0,
   clickedOption: null,
   points: 0,
+  secondsRemaining: null,
 };
 function reducer(state, action) {
   switch (action.type) {
     case "startGame":
-      return { ...state, status: "active", currentQuestion: 1 };
+      return {
+        ...state,
+        status: "active",
+        currentQuestion: 1,
+        secondsRemaining: state.questions.length * secs_per_ques,
+      };
     case "loading":
       return { ...state, status: "loading" };
     case "error":
@@ -29,10 +38,8 @@ function reducer(state, action) {
       return { ...state, status: "finish" };
     case "restart":
       return {
-        ...state,
-        status: "ready",
-        clickedOption: null,
-        points: 0,
+        ...initialValue,
+        questions: state.questions,
       };
     case "questions":
       return { ...state, questions: action.payload };
@@ -48,13 +55,25 @@ function reducer(state, action) {
         currentQuestion: state.currentQuestion + 1,
         clickedOption: null,
       };
+    case "timer":
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+      };
     default:
   }
 }
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialValue);
-  const { status, questions, currentQuestion, clickedOption, points } = state;
+  const {
+    status,
+    questions,
+    currentQuestion,
+    clickedOption,
+    points,
+    secondsRemaining,
+  } = state;
   const total_points = questions.reduce((agg, val) => {
     return agg + val.points;
   }, 0);
@@ -113,6 +132,7 @@ export default function App() {
               clickedOption={clickedOption}
               dispatch={dispatch}
               total={questions.length}
+              secondsRemaining={secondsRemaining}
             ></Footer>
           </Quiz>
         )}
@@ -127,4 +147,3 @@ export default function App() {
     </div>
   );
 }
-

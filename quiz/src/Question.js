@@ -1,6 +1,6 @@
 function Question({ questions, dispatch, currentQuestion, clickedOption }) {
   const q = questions[currentQuestion - 1];
-  const hasAnswered = clickedOption !==null
+  const hasAnswered = clickedOption !== null;
   return (
     <>
       {
@@ -10,8 +10,15 @@ function Question({ questions, dispatch, currentQuestion, clickedOption }) {
             {q.options.map((o, i) => {
               return (
                 <button
-                  disabled={clickedOption !== null}
-                  className={`btn btn-option ${i === clickedOption ? "answer" : ""} ${i === q.correctOption && hasAnswered && "correct"} ${i !== q.correctOption && hasAnswered && "wrong"}`}
+                  className={`btn btn-option ${hasAnswered && clickedOption === i ? "answer" : ""}
+                  ${
+                    hasAnswered
+                      ? i === q.correctOption
+                        ? "correct"
+                        : "wrong"
+                      : ""
+                  }`}
+                  disabled={hasAnswered}
                   key={i}
                   onClick={() =>
                     dispatch({
