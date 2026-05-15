@@ -11,7 +11,7 @@ function AppNav() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="contry">Contries</NavLink>
+          <NavLink to="country">Countries</NavLink>
         </li>
       </ul>
     </nav>

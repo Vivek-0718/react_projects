@@ -4,12 +4,20 @@
   list-style: none;
   overflow-y: scroll;
   overflow-x: hidden;
-
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  margin-bottom: 2rem;
 }
 
 .cityList::-webkit-scrollbar {
   width: 0;
+}
+
+.message {
+  text-align: center;
+  font-size: 1.8rem;
+  width: 80%;
+  margin: 2rem auto;
+  font-weight: 600;
 }
