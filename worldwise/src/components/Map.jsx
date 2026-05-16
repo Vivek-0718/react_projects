@@ -12,6 +12,18 @@ import styles from "./Map.module.css";
 import { useData } from "../context/Contextprovider";
 import Button from "./Button";
 import { useGeolocation } from "../hooks/useGeolocation";
+import L from "leaflet";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+});
 function Map() {
   const { currCities } = useData();
   const [params] = useSearchParams();
