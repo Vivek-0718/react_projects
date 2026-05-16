@@ -36,3 +36,21 @@
 :global(.leaflet-popup-content-wrapper) {
   border-left: 5px solid var(--color-brand--2);
 }
+
+.loader {
+  display: block;
+  width: 1.2em;
+  padding: 8px;
+  border: 0.15em solid transparent;
+  border-right-color: white;
+  border-radius: 50%;
+  animation: button-anim 1s infinite linear;
+}
+@keyframes button-anim {
+  from {
+    rotate: 0;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
