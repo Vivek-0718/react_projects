@@ -1,6 +1,5 @@
 .homepage {
-  height: calc(100vh - 5rem);
-  margin: 2.5rem;
+  height: 100%;
   background-image: linear-gradient(
       rgba(36, 42, 46, 0.8),
       rgba(36, 42, 46, 0.8)
@@ -31,4 +30,13 @@
   font-size: 1.9rem;
   color: var(--color-light--1);
   margin-bottom: 2.5rem;
+}
+
+@media (max-width: 800px) {
+  .homepage {
+    padding: 2rem;
+  }
+  .homepage h1{
+    font-size: 3rem;
+  }
 }

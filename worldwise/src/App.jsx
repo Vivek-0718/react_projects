@@ -17,9 +17,6 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index element={<Homepage></Homepage>}></Route>
-            <Route path="/product" element={<Product></Product>}></Route>
-            <Route path="/pricing" element={<Pricing></Pricing>}></Route>
-            <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/app" element={<AppLayout />}>
               <Route index element={<Navigate replace to="city" />}></Route>
               <Route path="city" element={<CityList></CityList>}></Route>
