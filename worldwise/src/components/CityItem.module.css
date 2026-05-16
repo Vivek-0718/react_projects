@@ -46,6 +46,9 @@
   font-weight: 400;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .deleteBtn:hover {

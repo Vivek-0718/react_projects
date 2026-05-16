@@ -15,7 +15,7 @@ function City() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { currCities, setcity } = useData();
-  const currentCity = currCities.find((i) => Number(i.id) === Number(id));
+  const currentCity = currCities.find((i) => i.id === id);
   const { cityName, emoji, date, notes } = currentCity;
 
   useEffect(
@@ -58,7 +58,7 @@ function City() {
               src={`https://flagcdn.com/256x192/${emoji}.webp`}
               alt={cityName}
             />
-          </span>{" "}
+          </span>
           {cityName}
         </h3>
       </div>

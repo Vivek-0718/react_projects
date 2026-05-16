@@ -16,3 +16,15 @@
   font-size: 1.2rem;
   color: var(--color-light--1);
 }
+
+@media (max-width: 800px) {
+  .sidebar {
+    flex-basis: unset;
+    height: 50dvh;
+    padding: 3rem;
+    overflow: auto;
+  }
+  .footer {
+    display: none;
+  }
+}

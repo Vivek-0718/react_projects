@@ -21,3 +21,8 @@
   margin: 2rem auto;
   font-weight: 600;
 }
+@media (max-width: 800px) {
+  .cityList {
+    margin: 0;
+  }
+}

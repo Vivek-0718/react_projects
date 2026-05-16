@@ -54,3 +54,10 @@
     rotate: 360deg;
   }
 }
+
+@media (max-width:800px) {
+  .map{
+    flex-basis: unset;
+    height: 50dvh;
+  }
+}

@@ -1,24 +1,22 @@
-// "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
-
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import styles from "./Form.module.css";
+import "react-datepicker/dist/react-datepicker.css";
 import Button from "./Button";
 import { useNavigate, useSearchParams } from "react-router-dom";
-export function convertToEmoji(countryCode) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
+import { useData } from "../context/Contextprovider";
+import React from "react";
+import DatePicker from "react-datepicker";
 
 function Form() {
+  const { setcities } = useData();
   const navigate = useNavigate();
   const [cityName, setCityName] = useState("");
+  const [contrycode, setcontrycode] = useState("");
+  const [cityData, setCityData] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [nocity, setNocity] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [search] = useSearchParams();
   const lat = parseFloat(search.get("lat"));
@@ -36,9 +34,19 @@ function Form() {
           );
           if (!res.ok) throw new Error("Something went working");
           let data = await res.json();
+          setcontrycode(data.countryCode);
           const cityname = data.city;
           if (cityname) {
             setCityName(cityname);
+            setCityData({
+              cityName: data.city,
+              country: data.countryName,
+              emoji: data.countryCode.toLowerCase(),
+              position: {
+                lat: data.latitude,
+                lng: data.longitude,
+              },
+            });
           } else {
             setNocity(true);
           }
@@ -55,6 +63,19 @@ function Form() {
     },
     [lat, lng],
   );
+
+  function addCity(e) {
+    e.preventDefault();
+    if (!selectedDate || !cityName) return;
+    const newcity = {
+      ...cityData,
+      id: crypto.randomUUID(),
+      date: selectedDate,
+      notes: notes,
+    };
+    setcities((cities) => [...cities, newcity]);
+    navigate("/app/city");
+  }
   return (
     <>
       {isLoading ? (
@@ -72,15 +93,25 @@ function Form() {
               onChange={(e) => setCityName(e.target.value)}
               value={cityName}
             />
-            {/* <span className={styles.flag}>{emoji}</span> */}
+            <span className={styles.flag}>
+              <img
+                width="24px"
+                src={`https://flagcdn.com/256x192/${contrycode.toLowerCase()}.webp`}
+                alt={cityName}
+              />
+            </span>
           </div>
 
           <div className={styles.row}>
             <label htmlFor="date">When did you go to {cityName}?</label>
-            <input
-              id="date"
-              onChange={(e) => setDate(e.target.value)}
-              value={date}
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              peekNextMonth
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              dateFormat={"dd/MM/yy"}
             />
           </div>
 
@@ -94,7 +125,12 @@ function Form() {
           </div>
 
           <div className={styles.buttons}>
-            <Button type={"primary"} onClick={() => navigate("city")}>
+            <Button
+              type={"primary"}
+              onClick={(e) => {
+                addCity(e);
+              }}
+            >
               Add
             </Button>
             <Button

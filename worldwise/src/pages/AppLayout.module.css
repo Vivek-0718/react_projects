@@ -5,3 +5,9 @@
   display: flex;
   position: relative;
 }
+@media (max-width:800px) {
+  .app{
+    flex-direction: column;
+    overflow: hidden;
+  }
+}

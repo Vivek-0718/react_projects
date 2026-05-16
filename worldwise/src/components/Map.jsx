@@ -61,20 +61,19 @@ function Map() {
         <ChangeCenter position={mapPosition}></ChangeCenter>
         <Clickmap></Clickmap>
       </MapContainer>
-      {!(position.lat && position.lng) && (
-        <Button
-          type="position"
-          onClick={() => {
-            getPosition();
-          }}
-        >
-          {isLoading ? (
-            <div className={styles.loader}></div>
-          ) : (
-            <span>Use Your Position</span>
-          )}
-        </Button>
-      )}
+
+      <Button
+        type="position"
+        onClick={() => {
+          getPosition();
+        }}
+      >
+        {isLoading ? (
+          <div className={styles.loader}></div>
+        ) : (
+          <span>Use Your Position</span>
+        )}
+      </Button>
     </div>
   );
 }
