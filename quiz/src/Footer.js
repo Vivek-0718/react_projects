@@ -1,11 +1,7 @@
 import { useEffect } from "react";
-function Footer({
-  clickedOption,
-  dispatch,
-  total,
-  currentQuestion,
-  secondsRemaining,
-}) {
+import { useData } from "./context/quizprovider";
+function Footer() {
+  const { questions,currentQuestion, dispatch, clickedOption, secondsRemaining } = useData();
   const mins = String(Math.floor(secondsRemaining / 60)).padStart(2, "0");
   const secs = String(secondsRemaining % 60).padStart(2, "0");
   useEffect(
@@ -25,7 +21,7 @@ function Footer({
     <div className="footer">
       <div className="timer">{`${mins}:${secs}`}</div>
       {clickedOption !== null &&
-        (currentQuestion < total ? (
+        (currentQuestion < questions.length ? (
           <button
             className="btn btn-ui"
             onClick={() => dispatch({ type: "nextQuestion" })}

@@ -1,9 +1,18 @@
-function Start({ dispatch, total }) {
+import { useData } from "./context/quizprovider";
+
+function Start() {
+  const {
+    dispatch,
+    questions
+  } = useData();
   return (
     <div className="start">
       <h2>Welcome to The React Quiz!</h2>
-      <h3>{total} questions to test your React mastery</h3>
-      <button className="btn btn-ui" onClick={() => dispatch({type:"startGame"})}>
+      <h3>{questions.length} questions to test your React mastery</h3>
+      <button
+        className="btn btn-ui"
+        onClick={() => dispatch({ type: "startGame" })}
+      >
         Let's start
       </button>
     </div>

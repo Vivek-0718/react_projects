@@ -1,4 +1,10 @@
-function Finish({ dispatch, points, total_points }) {
+import { useData } from "./context/quizprovider";
+
+function Finish() {
+  const { questions, dispatch, points } = useData();
+  const total_points = questions.reduce((agg, val) => {
+    return agg + val.points;
+  }, 0);
   return (
     <>
       <p className="result">

@@ -1,4 +1,7 @@
-function Question({ questions, dispatch, currentQuestion, clickedOption }) {
+import { useData } from "./context/quizprovider";
+
+function Question() {
+  const { questions, currentQuestion, dispatch, clickedOption } = useData();
   const q = questions[currentQuestion - 1];
   const hasAnswered = clickedOption !== null;
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -9,74 +9,12 @@ import Progress from "./Progress";
 import Question from "./Question";
 import Footer from "./Footer";
 import Finish from "./Finish";
-
-const secs_per_ques = 30
-const initialValue = {
-  status: "ready",
-  questions: [],
-  currentQuestion: 0,
-  clickedOption: null,
-  points: 0,
-  secondsRemaining: null,
-};
-function reducer(state, action) {
-  switch (action.type) {
-    case "startGame":
-      return {
-        ...state,
-        status: "active",
-        currentQuestion: 1,
-        secondsRemaining: state.questions.length * secs_per_ques,
-      };
-    case "loading":
-      return { ...state, status: "loading" };
-    case "error":
-      return { ...state, status: "error" };
-    case "ready":
-      return { ...state, status: "ready" };
-    case "finish":
-      return { ...state, status: "finish" };
-    case "restart":
-      return {
-        ...initialValue,
-        questions: state.questions,
-      };
-    case "questions":
-      return { ...state, questions: action.payload };
-    case "clicked":
-      return {
-        ...state,
-        clickedOption: action.payload,
-        points: state.points + action.points,
-      };
-    case "nextQuestion":
-      return {
-        ...state,
-        currentQuestion: state.currentQuestion + 1,
-        clickedOption: null,
-      };
-    case "timer":
-      return {
-        ...state,
-        secondsRemaining: state.secondsRemaining - 1,
-      };
-    default:
-  }
-}
-
+import { useData } from "./context/quizprovider";
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialValue);
   const {
+    dispatch,
     status,
-    questions,
-    currentQuestion,
-    clickedOption,
-    points,
-    secondsRemaining,
-  } = state;
-  const total_points = questions.reduce((agg, val) => {
-    return agg + val.points;
-  }, 0);
+  } = useData();
   useEffect(
     function () {
       const controller = new AbortController();
@@ -110,39 +48,15 @@ export default function App() {
       <Main>
         {status === "loading" && <Loader></Loader>}
         {status === "error" && <Error></Error>}
-        {status === "ready" && (
-          <Start dispatch={dispatch} total={questions.length}></Start>
-        )}
+        {status === "ready" && <Start></Start>}
         {status === "active" && (
           <Quiz>
-            <Progress
-              currentQuestion={currentQuestion}
-              questions={questions}
-              points={points}
-              total_points={total_points}
-            ></Progress>
-            <Question
-              questions={questions}
-              dispatch={dispatch}
-              currentQuestion={currentQuestion}
-              clickedOption={clickedOption}
-            ></Question>
-            <Footer
-              currentQuestion={currentQuestion}
-              clickedOption={clickedOption}
-              dispatch={dispatch}
-              total={questions.length}
-              secondsRemaining={secondsRemaining}
-            ></Footer>
+            <Progress></Progress>
+            <Question></Question>
+            <Footer></Footer>
           </Quiz>
         )}
-        {status === "finish" && (
-          <Finish
-            dispatch={dispatch}
-            points={points}
-            total_points={total_points}
-          ></Finish>
-        )}
+        {status === "finish" && <Finish></Finish>}
       </Main>
     </div>
   );
