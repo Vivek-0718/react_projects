@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
+import BackButton from '../../ui/BackButton';
 
 function EmptyCart() {
   return (
     <div>
-      <Link to="/menu">&larr; Back to menu</Link>
+      <BackButton to="/menu">&larr; Back to menu</BackButton>
 
       <p>Your cart is still empty. Start adding some pizzas :)</p>
     </div>
