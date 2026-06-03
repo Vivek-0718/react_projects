@@ -1,12 +1,27 @@
+import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/helpers";
-import Button from "./../../ui/Button"
+import Button from "./../../ui/Button";
+import { addItem, getCart } from "./../cart/cartSlice";
+import ItemCounter from "../../ui/ItemCounter";
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
-
+  const dispatch = useDispatch();
+  const cart  = useSelector(getCart);
+  const clickedItem = cart.find((item) => item.pizzaId === id)
+  function handleAddtoCart() {
+    const newItem = {
+      pizzaId: id,
+      name,
+      quantity: 1,
+      price: unitPrice,
+      totalPrice: unitPrice,
+    };
+    dispatch(addItem(newItem));
+  }
   return (
     <li className="flex gap-4 py-2">
       <img
-        className={`h-24 ${soldOut ? "grayscale opacity-70" : ""}`}
+        className={`h-24 ${soldOut ? "opacity-70 grayscale" : ""}`}
         src={imageUrl}
         alt={name}
       />
@@ -23,7 +38,19 @@ function MenuItem({ pizza }) {
               Sold out
             </p>
           )}
-          <Button type="small">Add to cart</Button>
+          {clickedItem?.quantity >= 1 ? (
+            <ItemCounter
+              pizzaId={clickedItem.pizzaId}
+              quantity={clickedItem.quantity}
+              totalPrice={clickedItem.totalPrice}
+            ></ItemCounter>
+          ) : (
+            !soldOut && (
+              <Button onClick={() => handleAddtoCart()} type="small">
+                Add to cart
+              </Button>
+            )
+          )}
         </div>
       </div>
     </li>
