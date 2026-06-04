@@ -5,3 +5,4 @@
 - UMDb - https://umdb-p4.vercel.app/
 - Quiz time - https://quiz-p5.vercel.app/
 - Worldwise - https://worldwise-p6.vercel.app/
+- Fast Pizza - https://fast-pizza-p7.vercel.app/
