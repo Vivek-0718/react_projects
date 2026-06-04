@@ -17,11 +17,11 @@ function ItemCounter({ pizzaId, quantity, totalPrice }) {
     <div className="flex items-center justify-between gap-6">
       <p>{formatCurrency(totalPrice)}</p>
       <div className="flex items-center gap-2 md:gap-3">
-        <Button onClick={() => handleDecrease()} type="small">
+        <Button onClick={() => handleDecrease()} type="round">
           -
         </Button>
         <span className="text-sm font-medium">{quantity}</span>
-        <Button onClick={() => handleIncrease()} type="small">
+        <Button onClick={() => handleIncrease()} type="round">
           +
         </Button>
       </div>

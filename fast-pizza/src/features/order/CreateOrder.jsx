@@ -1,10 +1,11 @@
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
-import {store} from "./../../store";
+import { store } from "./../../store";
 import { createOrder } from "../../service/apiRestaurant";
 import Button from "../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { getCart,clearCart } from "./../cart/cartSlice";
+import { getCart, clearCart } from "./../cart/cartSlice";
 import EmptyCart from "./../cart/EmptyCart";
+import { fetchAddress, getCurrentAddress } from "../user/userSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -19,7 +20,7 @@ function CreateOrder() {
   const errors = useActionData();
   const { username } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const address = useSelector(getCurrentAddress);
   if (!cart.length) return <EmptyCart></EmptyCart>;
   return (
     <div className="px-4 py-6">
@@ -48,16 +49,21 @@ function CreateOrder() {
           </div>
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="relative mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">Address</label>
           <div className="grow">
             <input
               className="input w-full"
               type="text"
               name="address"
-              required
+              value={address}
             />
           </div>
+          <span className="absolute right-[3px] top-[3px] z-50 md:right-[5px] md:top-[5px]">
+            <Button type="small" onClick={() => dispatch(fetchAddress())}>
+              Address
+            </Button>
+          </span>
         </div>
 
         <div className="mb-12 flex items-center gap-5">
