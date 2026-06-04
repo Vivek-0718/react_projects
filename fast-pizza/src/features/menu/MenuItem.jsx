@@ -13,7 +13,7 @@ function MenuItem({ pizza }) {
       pizzaId: id,
       name,
       quantity: 1,
-      price: unitPrice,
+      unitPrice,
       totalPrice: unitPrice,
     };
     dispatch(addItem(newItem));

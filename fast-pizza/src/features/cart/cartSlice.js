@@ -18,7 +18,7 @@ const cartSlice = createSlice({
         (item) => item.pizzaId === action.payload,
       );
       selectedItem.quantity++;
-      selectedItem.totalPrice = selectedItem.quantity * selectedItem.price;
+      selectedItem.totalPrice = selectedItem.quantity * selectedItem.unitPrice;
     },
     decreaseItemCount(state, action) {
       const selectedItem = state.cart.find(
@@ -30,7 +30,8 @@ const cartSlice = createSlice({
         );
       } else {
         selectedItem.quantity--;
-        selectedItem.totalPrice = selectedItem.quantity * selectedItem.price;
+        selectedItem.totalPrice =
+          selectedItem.quantity * selectedItem.unitPrice;
       }
     },
     clearCart(state) {
@@ -48,7 +49,7 @@ export const {
   clearCart,
 } = cartSlice.actions;
 
-export const getCart = (state)=>state.cart.cart
+export const getCart = (state) => state.cart.cart;
 export const getTotalPizzas = (state) =>
   state.cart.cart.reduce((agg, val) => {
     return agg + val.quantity;
